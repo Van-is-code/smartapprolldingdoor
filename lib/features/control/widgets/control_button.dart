@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// Đổi tên từ _ControlButton thành ControlButton (bỏ dấu gạch)
-class _ControlButton extends StatelessWidget {
-  // ... (Copy class _ControlButton) ...
+// Sửa lỗi: Đổi tên từ _ControlButton thành ControlButton (bỏ dấu gạch dưới)
+class ControlButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color color;
   final bool isLoading;
   final VoidCallback onPressed;
 
-  const _ControlButton({
+  const ControlButton({
+    // Thêm super.key
+    super.key,
     required this.icon,
     required this.label,
     required this.color,

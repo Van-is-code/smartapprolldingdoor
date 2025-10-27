@@ -6,14 +6,12 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smart_door_app/core/auth/auth_controller.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
-  // ... (Copy class LoginPage) ...
   const LoginPage({super.key});
   @override
   ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  // ... (Copy class _LoginPageState) ...
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -52,8 +50,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Animation Lottie
+              // Sửa lỗi: Xóa định dạng Markdown khỏi URL
               Lottie.network(
-                '[https://assets9.lottiefiles.com/packages/lf20_tneen7jz.json](https://assets9.lottiefiles.com/packages/lf20_tneen7jz.json)',
+                'https://assets9.lottiefiles.com/packages/lf20_tneen7jz.json',
                 width: 200,
                 height: 200,
               ),
@@ -75,18 +74,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               const SizedBox(height: 40),
               TextField(
                 controller: _usernameController,
-                decoration: const InputDecoration(
+                // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
+                decoration: InputDecoration(
                   hintText: 'Tên đăng nhập',
-                  prefixIcon: Icon(PhosphorIcons.user, color: Colors.white54),
+                  prefixIcon: Icon(PhosphorIcons.user(), color: Colors.white54),
                 ),
               ),
               const SizedBox(height: 20),
               TextField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(
+                // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
+                decoration: InputDecoration(
                   hintText: 'Mật khẩu',
-                  prefixIcon: Icon(PhosphorIcons.lock, color: Colors.white54),
+                  prefixIcon: Icon(PhosphorIcons.lock(), color: Colors.white54),
                 ),
               ),
               const SizedBox(height: 40),

@@ -8,14 +8,12 @@ import 'package:smart_door_app/core/api/api_service.dart';
 import 'package:smart_door_app/features/control/widgets/control_button.dart';
 
 class ControlPage extends ConsumerStatefulWidget {
-  // ... (Copy class ControlPage) ...
   const ControlPage({super.key});
   @override
   ConsumerState<ControlPage> createState() => _ControlPageState();
 }
 
 class _ControlPageState extends ConsumerState<ControlPage> {
-  // ... (Copy class _ControlPageState) ...
   String? _commandLoading; // "OPEN", "CLOSE", "STOP"
 
   Future<void> _runCommand(String action) async {
@@ -25,6 +23,8 @@ class _ControlPageState extends ConsumerState<ControlPage> {
 
     try {
       await ref.read(apiServiceProvider).sendCommand(action);
+      // Kiểm tra widget còn tồn tại không trước khi dùng context
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Đã gửi lệnh: $action'),
@@ -32,6 +32,7 @@ class _ControlPageState extends ConsumerState<ControlPage> {
         ),
       );
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Gửi lệnh thất bại: ${e.toString()}'),
@@ -43,9 +44,12 @@ class _ControlPageState extends ConsumerState<ControlPage> {
     } finally {
       // Thêm độ trễ nhỏ để user thấy animation
       await Future.delayed(const Duration(milliseconds: 500));
-      setState(() {
-        _commandLoading = null;
-      });
+      // Kiểm tra widget còn tồn tại không trước khi gọi setState
+      if (mounted) {
+        setState(() {
+          _commandLoading = null;
+        });
+      }
     }
   }
 
@@ -57,7 +61,8 @@ class _ControlPageState extends ConsumerState<ControlPage> {
         actions: [
           // Nút kích hoạt Bluetooth (chưa làm)
           IconButton(
-            icon: const Icon(PhosphorIcons.bluetooth, color: Colors.blueAccent),
+            // Sửa lỗi: Thêm () cho PhosphorIcons
+            icon: Icon(PhosphorIcons.bluetooth(), color: Colors.blueAccent),
             onPressed: () {
               // TODO: Mở màn hình quét Bluetooth
               ScaffoldMessenger.of(context).showSnackBar(
@@ -90,8 +95,9 @@ class _ControlPageState extends ConsumerState<ControlPage> {
             ),
             const SizedBox(height: 40),
             // Animation chính
+            // Sửa lỗi: Xóa định dạng Markdown khỏi URL
             Lottie.network(
-              '[https://assets3.lottiefiles.com/packages/lf20_bpdnxy3w.json](https://assets3.lottiefiles.com/packages/lf20_bpdnxy3w.json)',
+              'https://assets3.lottiefiles.com/packages/lf20_bpdnxy3w.json',
               width: 250,
               height: 250,
             ),
@@ -100,22 +106,23 @@ class _ControlPageState extends ConsumerState<ControlPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // Sửa lỗi: Đổi tên _ControlButton và thêm () cho PhosphorIcons
                 ControlButton(
-                  icon: PhosphorIcons.arrowUp,
+                  icon: PhosphorIcons.arrowUp(),
                   label: 'MỞ',
                   color: Colors.green,
                   isLoading: _commandLoading == 'OPEN',
                   onPressed: () => _runCommand('OPEN'),
                 ),
                 ControlButton(
-                  icon: PhosphorIcons.handPalm,
+                  icon: PhosphorIcons.handPalm(),
                   label: 'DỪNG',
                   color: Colors.orange,
                   isLoading: _commandLoading == 'STOP',
                   onPressed: () => _runCommand('STOP'),
                 ),
                 ControlButton(
-                  icon: PhosphorIcons.arrowDown,
+                  icon: PhosphorIcons.arrowDown(),
                   label: 'ĐÓNG',
                   color: Colors.red,
                   isLoading: _commandLoading == 'CLOSE',

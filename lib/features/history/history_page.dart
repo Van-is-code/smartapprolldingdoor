@@ -7,7 +7,6 @@ import 'package:smart_door_app/core/models/log_entry.dart'; // Import model
 import 'package:intl/intl.dart'; // Import intl
 
 class HistoryPage extends ConsumerWidget {
-  // ... (Copy class HistoryPage) ...
   const HistoryPage({super.key});
 
   @override
@@ -19,25 +18,31 @@ class HistoryPage extends ConsumerWidget {
         title: const Text('Lịch sử'),
         actions: [
           IconButton(
-            icon: const Icon(PhosphorIcons.arrowCounterClockwise),
+            // Sửa lỗi: Thêm () cho PhosphorIcons
+            icon: Icon(PhosphorIcons.arrowCounterClockwise()),
+            tooltip: 'Làm mới', // Thêm tooltip
             onPressed: () => ref.refresh(logsProvider),
           ),
         ],
       ),
       body: logsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Lỗi: $err')),
+        error: (err, stack) => Center(child: Text('Lỗi tải lịch sử: $err')), // Thông báo lỗi rõ hơn
         data: (logs) {
           if (logs.isEmpty) {
             return const Center(child: Text('Không có lịch sử hoạt động.'));
           }
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: logs.length,
-            itemBuilder: (context, index) {
-              final log = logs[index];
-              return HistoryCard(log: log);
-            },
+          // Thêm RefreshIndicator để kéo xuống làm mới
+          return RefreshIndicator(
+            onRefresh: () => ref.refresh(logsProvider.future),
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: logs.length,
+              itemBuilder: (context, index) {
+                final log = logs[index];
+                return HistoryCard(log: log);
+              },
+            ),
           );
         },
       ),

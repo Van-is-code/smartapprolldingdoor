@@ -2,13 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smart_door_app/core/auth/auth_controller.dart';
+// Import provider để lấy thông tin user
+import 'package:jwt_decoder/jwt_decoder.dart'; // Thêm thư viện này vào pubspec.yaml
 
 class ProfilePage extends ConsumerWidget {
-  // ... (Copy class ProfilePage) ...
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Lấy thông tin username từ token (cần xử lý null)
+    final authState = ref.watch(authControllerProvider);
+    String username = 'Loading...';
+    authState.whenData((token) {
+      if (token != null) {
+        try {
+          Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+          username = decodedToken['username'] ?? 'Unknown User';
+        } catch (e) {
+          username = 'Error decoding token';
+        }
+      } else {
+        username = 'Not logged in';
+      }
+    });
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tài khoản'),
@@ -17,19 +35,25 @@ class ProfilePage extends ConsumerWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            const Icon(PhosphorIcons.userCircleFill, size: 80, color: Color(0xFF6E5FFF)),
+            // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
+            Icon(PhosphorIcons.userCircleFill(), size: 80, color: const Color(0xFF6E5FFF)),
             const SizedBox(height: 16),
+            // Hiển thị username đã lấy được
             Text(
-              'username', // TODO: Lấy username từ state
+              username,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
             ListTile(
-              leading: const Icon(PhosphorIcons.key),
+              // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
+              leading: Icon(PhosphorIcons.key()),
               title: const Text('Đổi mật khẩu'),
-              trailing: const Icon(PhosphorIcons.caretRight),
+              trailing: Icon(PhosphorIcons.caretRight()),
               onTap: () {
                 // TODO: Mở màn hình đổi mật khẩu
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Chức năng đổi mật khẩu sẽ được phát triển!')),
+                );
               },
             ),
             const Spacer(),
@@ -45,7 +69,27 @@ class ProfilePage extends ConsumerWidget {
                   ),
                 ),
                 onPressed: () {
-                  ref.read(authControllerProvider.notifier).logout();
+                  // Thêm xác nhận trước khi đăng xuất
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Xác nhận đăng xuất'),
+                      content: const Text('Bạn có chắc muốn đăng xuất khỏi ứng dụng không?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Hủy'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            ref.read(authControllerProvider.notifier).logout();
+                          },
+                          child: const Text('Đăng xuất', style: TextStyle(color: Colors.redAccent)),
+                        ),
+                      ],
+                    ),
+                  );
                 },
                 child: const Text('Đăng Xuất', style: TextStyle(fontWeight: FontWeight.bold)),
               ),

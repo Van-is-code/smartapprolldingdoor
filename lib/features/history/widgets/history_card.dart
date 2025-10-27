@@ -4,7 +4,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smart_door_app/core/models/log_entry.dart';
 
 class HistoryCard extends StatelessWidget {
-  // ... (Copy class HistoryCard) ...
   final LogEntry log;
   const HistoryCard({super.key, required this.log});
 
@@ -16,15 +15,16 @@ class HistoryCard extends StatelessWidget {
 
     switch (log.action) {
       case 'OPEN':
-        icon = PhosphorIcons.arrowUp;
+      // Sửa lỗi: Thêm () cho PhosphorIcons
+        icon = PhosphorIcons.arrowUp();
         color = Colors.green;
         break;
       case 'CLOSE':
-        icon = PhosphorIcons.arrowDown;
+        icon = PhosphorIcons.arrowDown();
         color = Colors.red;
         break;
       default:
-        icon = PhosphorIcons.handPalm;
+        icon = PhosphorIcons.handPalm();
         color = Colors.orange;
     }
 
@@ -43,7 +43,8 @@ class HistoryCard extends StatelessWidget {
           style: const TextStyle(color: Colors.white54),
         ),
         trailing: Text(
-          DateFormat('HH:mm\ndd/MM/yy').format(log.timestamp.toLocal()),
+          // Định dạng lại ngày giờ cho dễ đọc hơn
+          DateFormat('HH:mm dd/MM/yy').format(log.timestamp.toLocal()),
           textAlign: TextAlign.right,
           style: const TextStyle(color: Colors.white54, fontSize: 12),
         ),

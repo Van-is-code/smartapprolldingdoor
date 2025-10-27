@@ -3,7 +3,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:smart_door_app/core/models/schedule_entry.dart';
 
 class ScheduleCard extends StatelessWidget {
-  // ... (Copy class ScheduleCard) ...
   final ScheduleEntry schedule;
   final VoidCallback onDelete;
 
@@ -20,7 +19,8 @@ class ScheduleCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: Icon(
-          isOpening ? PhosphorIcons.arrowUp : PhosphorIcons.arrowDown,
+          // Sửa lỗi: Thêm () cho PhosphorIcons
+          isOpening ? PhosphorIcons.arrowUp() : PhosphorIcons.arrowDown(),
           color: isOpening ? Colors.green : Colors.red,
         ),
         title: Text(
@@ -29,7 +29,9 @@ class ScheduleCard extends StatelessWidget {
         ),
         subtitle: Text('Cron: ${schedule.cronTime}'),
         trailing: IconButton(
-          icon: const Icon(PhosphorIcons.trash, color: Colors.white54),
+          // Sửa lỗi: Thêm () cho PhosphorIcons
+          icon: Icon(PhosphorIcons.trash(), color: Colors.white54),
+          tooltip: 'Xóa lịch hẹn', // Thêm tooltip
           onPressed: onDelete,
         ),
       ),
