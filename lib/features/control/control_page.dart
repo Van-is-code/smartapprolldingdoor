@@ -96,11 +96,11 @@ class _ControlPageState extends ConsumerState<ControlPage> {
             const SizedBox(height: 40),
             // Animation chính
             // Sửa lỗi: Xóa định dạng Markdown khỏi URL
-            Lottie.network(
-              'https://assets3.lottiefiles.com/packages/lf20_bpdnxy3w.json',
-              width: 250,
-              height: 250,
-            ),
+            // Lottie.network(
+            //   'https://assets3.lottiefiles.com/packages/lf20_bpdnxy3w.json',
+            //   width: 250,
+            //   height: 250,
+            // ),
             const SizedBox(height: 60),
             // Hàng nút điều khiển
             Row(

@@ -13,7 +13,6 @@ class MainScaffold extends StatefulWidget {
 
 class _MainScaffoldState extends State<MainScaffold> {
   int _selectedIndex = 0;
-  // Sửa lỗi: Không cần const ở đây vì List chứa widget không phải const
   final List<Widget> _pages = <Widget>[
     const ControlPage(),
     const SchedulePage(),
@@ -37,26 +36,29 @@ class _MainScaffoldState extends State<MainScaffold> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.house()),
-            activeIcon: Icon(PhosphorIcons.houseFill()),
+            // Sửa lỗi: Dùng icon gốc cho activeIcon
+            activeIcon: Icon(PhosphorIcons.house()),
             label: 'Điều khiển',
           ),
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.timer()),
-            activeIcon: Icon(PhosphorIcons.timerFill()),
+            // Sửa lỗi: Dùng icon gốc cho activeIcon
+            activeIcon: Icon(PhosphorIcons.timer()),
             label: 'Hẹn giờ',
           ),
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.clockCounterClockwise()),
-            activeIcon: Icon(PhosphorIcons.clockCounterClockwiseFill()),
+            // Sửa lỗi: Dùng icon gốc cho activeIcon
+            activeIcon: Icon(PhosphorIcons.clockCounterClockwise()),
             label: 'Lịch sử',
           ),
           BottomNavigationBarItem(
             icon: Icon(PhosphorIcons.userCircle()),
-            activeIcon: Icon(PhosphorIcons.userCircleFill()),
+            // Sửa lỗi: Dùng icon gốc cho activeIcon
+            activeIcon: Icon(PhosphorIcons.userCircle()),
             label: 'Tài khoản',
           ),
         ],
@@ -64,3 +66,4 @@ class _MainScaffoldState extends State<MainScaffold> {
     );
   }
 }
+

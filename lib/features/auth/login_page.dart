@@ -51,11 +51,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             children: [
               // Animation Lottie
               // Sửa lỗi: Xóa định dạng Markdown khỏi URL
-              Lottie.network(
-                'https://assets9.lottiefiles.com/packages/lf20_tneen7jz.json',
-                width: 200,
-                height: 200,
-              ),
+              // Lottie.network(
+              //   'https://lottie.host/1b39b7e4-5611-4a74-8b3a-5c992ef8a233/pPZbR1gkq8.json',
+              //   width: 200,
+              //   height: 200,
+              // ),
               Text(
                 'Chào mừng trở lại',
                 style: GoogleFonts.inter(

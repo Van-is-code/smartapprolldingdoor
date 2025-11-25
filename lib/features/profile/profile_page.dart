@@ -20,6 +20,7 @@ class ProfilePage extends ConsumerWidget {
           username = decodedToken['username'] ?? 'Unknown User';
         } catch (e) {
           username = 'Error decoding token';
+          // Optional: log the error e
         }
       } else {
         username = 'Not logged in';
@@ -35,8 +36,8 @@ class ProfilePage extends ConsumerWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
-            Icon(PhosphorIcons.userCircleFill(), size: 80, color: const Color(0xFF6E5FFF)),
+            // Sửa lỗi: Dùng icon gốc thay vì *Fill
+            Icon(PhosphorIcons.userCircle(), size: 80, color: const Color(0xFF6E5FFF)),
             const SizedBox(height: 16),
             // Hiển thị username đã lấy được
             Text(
@@ -45,7 +46,6 @@ class ProfilePage extends ConsumerWidget {
             ),
             const SizedBox(height: 40),
             ListTile(
-              // Sửa lỗi: Bỏ const, thêm () cho PhosphorIcons
               leading: Icon(PhosphorIcons.key()),
               title: const Text('Đổi mật khẩu'),
               trailing: Icon(PhosphorIcons.caretRight()),
@@ -101,3 +101,4 @@ class ProfilePage extends ConsumerWidget {
     );
   }
 }
+
